@@ -1,4 +1,4 @@
-define(['jquery', 'underscore'], function($, _) {
+define(['jquery', 'underscore', 'when'], function($, _) {
 
 	var controller = function() {
 
