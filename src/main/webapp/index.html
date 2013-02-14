@@ -8,12 +8,30 @@
       var require = {
           baseUrl: "js/",
           waitSeconds: 15,
-          urlArgs : "ts="+buildTimestamp,
+          // urlArgs : "ts="+buildTimestamp,
           deps : ['main']
       };
 
     </script>
     <script src="js/libs/require/require-2.1.2.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+    body {
+      background-color: rgb(240, 240, 240);
+      font-family: monospace;
+    }
+    header {
+      font-size: 3em;
+    }
+    #main {
+      margin: 50px;
+    }
+    span {
+      display: block;
+    }
+    #main div li, #main div ul li {
+      padding-bottom: 40px;
+    }
+  </style>
   </head>
   
   <body>

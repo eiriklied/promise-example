@@ -2,28 +2,28 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
 
 	var controller = function() {
 
-			// // Private functions
-			// var resolvePetWithId9And10 = function() {
-			// 		$('<ul>').appendTo(controller.elem);
+			function addImage(imageUrl) {
+				return '<img src=' + imageUrl + ' />';
+			}
+			var renderTopArtists = function(artist) {
+					$('<li><span>Navn: ' + artist.name + '</span>' + addImage(artist.image) + '</li>').appendTo(controller.elem);
+				};
 
-			// 		var promise1 =  $.ajax({
-			// 			url: '/api/artist9.json',
-			// 			dataType: 'json'
-			// 		});
-			// 		var promise2 = $.ajax({
-			// 			url: '/api/artist10.json',
-			// 			dataType: 'json'
-			// 		});
+			var fetchTopArtists = function(callback) {
+					$.ajax({
+						url: '/api/topartists.json',
+						dataType: 'json',
+						success: function(artists) {
+							_.each(artists, function(artist) {
+								callback(artist);
+							});
+						},
+						error: function(dog) {
+							$('<li>Ooops!</li>').appendTo(controller.elem);
+						}
 
-			// 		when.all([promise1, promise2]).then(function (artists) {
-			// 			$('<ul>').appendTo(controller.elem);
-			// 			_.each(artists, function(artist) {
-			// 				$('<li>Navn: ' + artist.name + '</li>').appendTo(controller.elem);
-			// 			});
-			// 			$('</ul>').appendTo(controller.elem);
-			// 		});
-
-			// 	};
+					});
+				};
 
 			// Public functions
 			return {
@@ -31,9 +31,15 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
 					controller.elem = $(elem);
 					return this;
 				},
-				renderPets: function() {
+				render: function() {
 					$(controller.elem).empty();
-					resolvePetWithId9And10();
+
+					// !!!
+					$('<ul>').appendTo(controller.elem);
+					fetchTopArtists(renderTopArtists);
+					$('</ul>').appendTo(controller.elem);
+
+					// SJEKK HTML!
 				}
 			};
 		};

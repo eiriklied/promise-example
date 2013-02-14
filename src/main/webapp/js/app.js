@@ -2,10 +2,6 @@ define(['controller/artistController'], function(artistControllerInit) {
 
     var controller = function() {
 
-            // Private functions
-
-
-
             // Public functions
             return {
                 init: function(elem) {
@@ -14,7 +10,7 @@ define(['controller/artistController'], function(artistControllerInit) {
                     return this;
                 },
                 run: function() {
-                    controller.artistController.renderPets();
+                    controller.artistController.render();
                 }
             };
         };
