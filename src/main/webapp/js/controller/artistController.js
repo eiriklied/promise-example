@@ -10,6 +10,13 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
 				$('<li><span>Navn: ' + artist.name + '</span>' + addImage(artist.image) + '</li>').appendTo('ul');
 			}
 
+			var renderUl = function() {
+					setTimeout(function() {
+						$('<ul></ul>').appendTo(controller.elem);
+					}, 3000);
+				};
+			
+			/** Hack below here! **/
 			var fetchTopArtists = function() {
 					$.ajax({
 						url: '/api/topartists.json',
@@ -34,8 +41,7 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
 				},
 				render: function() {
 					$(controller.elem).empty();
-
-					$('<ul></ul>').appendTo(controller.elem);
+					renderUl();
 					fetchTopArtists();
 				}
 			};
