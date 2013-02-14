@@ -1,20 +1,16 @@
-define(['jquery', 'underscore', 'controller/petController'], function($, _, petControllerInit) {
+define(['controller/artistController'], function(artistControllerInit) {
 
     var controller = function() {
-
-            // Private functions
-
-
 
             // Public functions
             return {
                 init: function(elem) {
                     controller.elem = $(elem);
-                    controller.petController = petControllerInit("#pets");
+                    controller.artistController = artistControllerInit("#artists");
                     return this;
                 },
                 run: function() {
-                    controller.petController.renderPets();
+                    controller.artistController.render();
                 }
             };
         };
