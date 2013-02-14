@@ -1,30 +1,26 @@
 define(['jquery', 'underscore', 'when'], function($, _, when) {
 
 	var controller = function() {
-			var currentHtml = '';
-
-			function htmlBuilder(html) {
-				currentHtml += html;
-			}
 
 			function addImage(imageUrl) {
 				return '<img src=' + imageUrl + ' />';
 			}
-			var renderTopArtists = function(artist) {
-					htmlBuilder('<li><span>Navn: ' + artist.name + '</span>' + addImage(artist.image) + '</li>');
-				};
 
-			var fetchTopArtists = function(callback) {
+			function renderTopArtists(artist) {
+				$('<li><span>Navn: ' + artist.name + '</span>' + addImage(artist.image) + '</li>').appendTo('ul');
+			}
+
+			var fetchTopArtists = function() {
 					$.ajax({
 						url: '/api/topartists.json',
 						dataType: 'json',
 						success: function(artists) {
 							_.each(artists, function(artist) {
-								callback(artist);
+								renderTopArtists(artist);
 							});
 						},
 						error: function(dog) {
-							htmlBuilder('<li>Ooops!</li>');
+							$('<li>Ooops!</li>').appendTo('ul');
 						}
 
 					});
@@ -39,12 +35,8 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
 				render: function() {
 					$(controller.elem).empty();
 
-					// !!!
-					htmlBuilder('<ul>');
-					fetchTopArtists(renderTopArtists);
-					htmlBuilder('</ul>');
-					$(currentHtml).appendTo(controller.elem);
-					// SJEKK HTML!
+					$('<ul></ul>').appendTo(controller.elem);
+					fetchTopArtists();
 				}
 			};
 		};
