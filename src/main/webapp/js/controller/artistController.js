@@ -1,12 +1,17 @@
 define(['jquery', 'underscore', 'when'], function($, _, when) {
 
 	var controller = function() {
+			var currentHtml = '';
+
+			function htmlBuilder(html) {
+				currentHtml += html;
+			}
 
 			function addImage(imageUrl) {
 				return '<img src=' + imageUrl + ' />';
 			}
 			var renderTopArtists = function(artist) {
-					$('<li><span>Navn: ' + artist.name + '</span>' + addImage(artist.image) + '</li>').appendTo(controller.elem);
+					htmlBuilder('<li><span>Navn: ' + artist.name + '</span>' + addImage(artist.image) + '</li>');
 				};
 
 			var fetchTopArtists = function(callback) {
@@ -19,7 +24,7 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
 							});
 						},
 						error: function(dog) {
-							$('<li>Ooops!</li>').appendTo(controller.elem);
+							htmlBuilder('<li>Ooops!</li>');
 						}
 
 					});
@@ -35,10 +40,10 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
 					$(controller.elem).empty();
 
 					// !!!
-					$('<ul>').appendTo(controller.elem);
+					htmlBuilder('<ul>');
 					fetchTopArtists(renderTopArtists);
-					$('</ul>').appendTo(controller.elem);
-
+					htmlBuilder('</ul>');
+					$(currentHtml).appendTo(controller.elem);
 					// SJEKK HTML!
 				}
 			};
