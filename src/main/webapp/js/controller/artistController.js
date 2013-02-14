@@ -10,6 +10,16 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
                 _.each(artists, function(artist) {
                     $('<li><span>Navn: ' + artist.name + '</span>' + addImage(artist.image) + '</li>').appendTo('ul');
                 });
+                return artists;
+            }
+
+            function renderSimilarArtists(allSimilarArtists) {
+                _.each(allSimilarArtists, function(similarArtists) {
+                    var mbid = similarArtists.artistMbid;
+                    _.each(similarArtists.similar, function(artist) {
+                        $('<div>Navn: ' + artist.name + ':' + artist.match + '</div>').appendTo('li#' + mbid);
+                    });
+                });
             }
 
             var fetchTopArtists = function() {
@@ -18,6 +28,17 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
                         dataType: 'json'
                     });
                 };
+
+            function fetchSimilarArtist(artist) {
+                return $.ajax({
+                    url: '/api/similar-' + artist.mbid + '.json',
+                    dataType: 'json'
+                });
+            }
+
+            var loadAllSimilarArtists = function(artists) {
+                // TODO: Implement me with when all
+            };
 
             var renderUl = function() {
                     var deferred = when.defer();
@@ -40,7 +61,10 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
                     $(controller.elem).empty();
                     when(renderUl())
                     .then(fetchTopArtists)
-                    .then(renderTopArtists);
+                    .then(renderTopArtists)
+                    .then(function(artists) {
+                        //TODO: Implement me
+                    });
                 }
             };
         };
