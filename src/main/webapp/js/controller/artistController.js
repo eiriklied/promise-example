@@ -35,7 +35,7 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
                     }
                     setTimeout(function() {
                         resolve();
-                    }, 3000);
+                    }, 1500);
                     return deferred.promise;
                 };
 
