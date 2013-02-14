@@ -1,9 +1,6 @@
 define(['jquery', 'underscore', 'when'], function($, _, when) {
 
     var controller = function() {
-            function logerror(oops) {
-                console.log(oops);
-            }
 
             function addImage(imageUrl) {
                 return '<img src=' + imageUrl + ' />';
@@ -52,12 +49,12 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
                 };
 
             var loadAllSimilarArtists = function(artists) {
-                var similarArtistDeferred = [];
-                        _.each(artists, function(artist) {
-                            similarArtistDeferred.push(fetchSimilarArtist(artist));
-                        });
-                return when.all(similarArtistDeferred);
-            };
+                    var similarArtistDeferred = [];
+                    _.each(artists, function(artist) {
+                        similarArtistDeferred.push(fetchSimilarArtist(artist));
+                    });
+                    return when.all(similarArtistDeferred);
+                };
 
             // Public functions
             return {
@@ -67,9 +64,11 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
                 },
                 render: function() {
                     $(controller.elem).empty();
-                    when(renderUl()).then(fetchTopArtists).then(renderTopArtists).then(function(artists) {
+                    when(renderUl())
+                    .then(fetchTopArtists)
+                    .then(renderTopArtists)
+                    .then(function(artists) {
                         loadAllSimilarArtists(artists).then(renderSimilarArtists);
-                        
                     });
                 }
             };
