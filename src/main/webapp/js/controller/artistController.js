@@ -28,12 +28,13 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
 
             /** Hack below here! **/
             var renderUl = function() {
+                    // TODO: Make me use deferred with when
                     function appendUl() {
                         $('<ul></ul>').appendTo(controller.elem);
                     }
                     setTimeout(function() {
                         appendUl();
-                    }, 3000);
+                    }, 1500);
                 };
 
             // Public functions
@@ -44,6 +45,7 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
                 },
                 render: function() {
                     $(controller.elem).empty();
+                    // TODO: Run in sequence
                     renderUl();
                     fetchTopArtists();
                 }
