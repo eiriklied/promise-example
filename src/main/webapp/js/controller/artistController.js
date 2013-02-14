@@ -48,7 +48,6 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
 				render: function() {
 					$(controller.elem).empty();
 					when(renderUl()).then(fetchTopArtists);
-
 				}
 			};
 		};
