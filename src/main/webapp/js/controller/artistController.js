@@ -11,14 +11,19 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
 			}
 
 			var renderUl = function() {
+					var deferred = when.defer();
+					function resolve() {
+						deferred.resolve($('<ul></ul>').appendTo(controller.elem));
+					}
 					setTimeout(function() {
-						$('<ul></ul>').appendTo(controller.elem);
+						resolve();
 					}, 3000);
+					return deferred.promise;
 				};
-			
+
 			/** Hack below here! **/
 			var fetchTopArtists = function() {
-					$.ajax({
+					return $.ajax({
 						url: '/api/topartists.json',
 						dataType: 'json',
 						success: function(artists) {
@@ -41,8 +46,8 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
 				},
 				render: function() {
 					$(controller.elem).empty();
-					renderUl();
-					fetchTopArtists();
+					when(renderUl()).then(fetchTopArtists);
+
 				}
 			};
 		};
