@@ -5,21 +5,22 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
 			function addImage(imageUrl) {
 				return '<img src=' + imageUrl + ' />';
 			}
-			var renderTopArtists = function(artist) {
-					$('<li><span>Navn: ' + artist.name + '</span>' + addImage(artist.image) + '</li>').appendTo(controller.elem);
-				};
 
-			var fetchTopArtists = function(callback) {
+			function renderTopArtists(artist) {
+				$('<li><span>Navn: ' + artist.name + '</span>' + addImage(artist.image) + '</li>').appendTo('ul');
+			}
+
+			var fetchTopArtists = function() {
 					$.ajax({
 						url: '/api/topartists.json',
 						dataType: 'json',
 						success: function(artists) {
 							_.each(artists, function(artist) {
-								callback(artist);
+								renderTopArtists(artist);
 							});
 						},
 						error: function(dog) {
-							$('<li>Ooops!</li>').appendTo(controller.elem);
+							$('<li>Ooops!</li>').appendTo('ul');
 						}
 
 					});
@@ -34,12 +35,8 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
 				render: function() {
 					$(controller.elem).empty();
 
-					// !!!
-					$('<ul>').appendTo(controller.elem);
-					fetchTopArtists(renderTopArtists);
-					$('</ul>').appendTo(controller.elem);
-
-					// SJEKK HTML!
+					$('<ul></ul>').appendTo(controller.elem);
+					fetchTopArtists();
 				}
 			};
 		};
