@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', 'controller/petController'], function($, _, petControllerInit) {
+define(['controller/artistController'], function(artistControllerInit) {
 
     var controller = function() {
 
@@ -10,11 +10,11 @@ define(['jquery', 'underscore', 'controller/petController'], function($, _, petC
             return {
                 init: function(elem) {
                     controller.elem = $(elem);
-                    controller.petController = petControllerInit("#pets");
+                    controller.artistController = artistControllerInit("#artists");
                     return this;
                 },
                 run: function() {
-                    controller.petController.renderPets();
+                    controller.artistController.renderPets();
                 }
             };
         };

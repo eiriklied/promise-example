@@ -14,7 +14,7 @@ requirejs.config({
 });
 
 
-requirejs(['jquery', 'underscore', 'app'], function($, _, App) {
+requirejs(['app'], function(App) {
     var app = new App("#main");
     $(document).ready(function() {
         app.run();
