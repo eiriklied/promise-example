@@ -6,25 +6,26 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
                 return '<img src=' + imageUrl + ' />';
             }
 
-            function renderTopArtists(artist) {
+            function renderTopArtist(artist) {
                 $('<li><span>Navn: ' + artist.name + '</span>' + addImage(artist.image) + '</li>').appendTo('ul');
             }
 
-            var fetchTopArtists = function() {
-                    $.ajax({
-                        url: '/api/topartists.json',
-                        dataType: 'json',
-                        success: function(artists) {
-                            _.each(artists, function(artist) {
-                                renderTopArtists(artist);
-                            });
-                        },
-                        error: function(dog) {
-                            $('<li>Ooops!</li>').appendTo('ul');
-                        }
+            function renderTopArtists(artists) {
+                _.each(artists, function(artist) {
+                    renderTopArtist(artist);
+                });
+            }
 
-                    });
-                };
+            var fetchTopArtists = function() {
+                return $.ajax({
+                    url: '/api/topartists.json',
+                    dataType: 'json'
+                });
+            };
+
+            var fetchTopArtistsError = function(){
+                console.debug('couldnt fetch artists..')
+            }
 
             /** Hack below here! **/
             var renderUl = function() {
@@ -51,7 +52,9 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
                 render: function() {
                     $(controller.elem).empty();
                     // TODO: Run in sequence
-                    renderUl().then(fetchTopArtists)
+                    renderUl()
+                        .then(fetchTopArtists)
+                        .then(renderTopArtists, fetchTopArtistsError);
                 }
             };
         };
