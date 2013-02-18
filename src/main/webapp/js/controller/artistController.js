@@ -28,14 +28,19 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
 
             /** Hack below here! **/
             var renderUl = function() {
-                    // TODO: Make me use deferred with when
-                    function appendUl() {
-                        $('<ul></ul>').appendTo(controller.elem);
-                    }
-                    setTimeout(function() {
-                        appendUl();
-                    }, 1500);
-                };
+                // TODO: Make me use deferred with when
+                var deferred = when.defer(); 
+                
+                function appendUl() {
+                    $('<ul></ul>').appendTo(controller.elem);
+                    deferred.resolve();
+                }
+                setTimeout(function() {
+                    appendUl();
+                }, 1500);
+
+                return deferred.promise;
+            };
 
             // Public functions
             return {
@@ -46,8 +51,7 @@ define(['jquery', 'underscore', 'when'], function($, _, when) {
                 render: function() {
                     $(controller.elem).empty();
                     // TODO: Run in sequence
-                    renderUl();
-                    fetchTopArtists();
+                    renderUl().then(fetchTopArtists)
                 }
             };
         };
